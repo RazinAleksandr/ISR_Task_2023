@@ -20,24 +20,39 @@
 
 ## Introduction
 A study of the result of the Image Super Resolution NTIRE 2023 competition. Study and comparison of MDRN and GFMN models. Experimental improvement of models quality.
+
 ## Data
+
 ### Training data
 Data from the DIV2K and LSDIR public datasets are used to train the models. DIV2K dataset consists of 1,000 diverse 2K resolution RGB images, which are split into a training set of 800 images, a validation set of 100 images,and a test set of 100 images. LSDIR dataset contains 86,991 high-resolution high-quality images, which are split into a training set of 84,991 images, a validation set of 1,000 images, and a test set of 1,000.
+
 ### Test data
 There are 4 datasets used to test the quality of models: DIV2K test dataset, Manga109 containing comics images, publicly available dataset for Super Resolution quality test Set5 and custom dataset Christmas.
 ![fig](README.assets/datasets.png)
+
 # Architectures
+
 ### **MDRN**
+
 **Multi-level Dispersion Residual Network (MDRN).** NTIRE 2023 winner under:
 - Number of parameters.
 - FLOPS.
+
 ![fig](README.assets/architecture.png)
 ![fig](README.assets/EADB_details.png)
+
+### **GFMN**
+
 **Gated feature modulation network (GFMN).** NTIRE 2023 3rd place under:
 - Number of parameters.
 - FLOPS.
-![fig](README.assets/architecture.png)
-![fig](README.assets/EADB_details.png)
+
+![fig](README.assets/GFMN.png)
+
+# Demo Results
+Pretrain models inference on test sets PSNR | SSIM results:
+
+![fig](README.assets/demo.png)
 
 ## 💻Environment
 
