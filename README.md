@@ -103,3 +103,8 @@ python train.py -opt ./options/train/SAFM/train_safm_x2.yml --auto_resume
 python basicsr/test.py -opt ./options/test/MDRN/test_mdrn_x2.yml
 python basicsr/test.py -opt ./options/test/SAFM/test_safm_x2.yml
 ```
+# Links
+**Main papers**
+- [NTIRE2023](https://openaccess.thecvf.com/content/CVPR2023W/NTIRE/papers/Li_NTIRE_2023_Challenge_on_Efficient_Super-Resolution_Methods_and_Results_CVPRW_2023_paper.pdf)
+- [MDRN](https://openaccess.thecvf.com/content/CVPR2023W/NTIRE/papers/Mao_Multi-Level_Dispersion_Residual_Network_for_Efficient_Image_Super-Resolution_CVPRW_2023_paper.pdf)
+- [GFMN](https://openaccess.thecvf.com/content/ICCV2023/papers/Sun_Spatially-Adaptive_Feature_Modulation_for_Efficient_Image_Super-Resolution_ICCV_2023_paper.pdf)
