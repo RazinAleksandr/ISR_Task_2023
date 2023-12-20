@@ -1,13 +1,24 @@
+# Computer Vision Lab. Image Super Resolution Task 2023
+## Contents
+- [Introduction](#introduction)
+- [Data](#data)
+  - [Training Data](#training-data)
+  - [Test Data](#test-data)
+- [Architectures](#architectures)
+  - [MDRN](#mdrn)
+  - [GFMN](#gfmn)
+- [Demo Results](#demo)
+- [Experiments](#experiments)
+  - [Addition tasks](#dddition-tasks)
+  - [Losses modification](#losses-modification)
+- [Setup and Reproducibility](#setup-and-reproducibility)
+  - [Environment](#environment)
+  - [Reproducibility](#reproducibility)
+- [Links](#links)
+- [Project Structure](#project-structure)
+- [License](#license)
+
 # **MDRN**
-
-Multi-level Dispersion Residual Network for Efficient Image Super-Resolution [[paper](https://openaccess.thecvf.com/content/CVPR2023W/NTIRE/papers/Mao_Multi-Level_Dispersion_Residual_Network_for_Efficient_Image_Super-Resolution_CVPRW_2023_paper.pdf)]
-
-Yanyu Mao[^*], Nihao Zhang[^*], Qian Wang[^†], Bendu Bai, Wanying Bai, Haonan Fang, Peng Liu, Mingyue Li, Shengbo Yan
-
-[^*]: indicates contribute equally
-[^†]: Corresponding author
-
-
 
 ![fig](README.assets/architecture.png)
 
@@ -68,11 +79,6 @@ python basicsr/test.py -opt ./options/test/MDRN/test_mdrn_x4.yml  # ×4
 
 ## 🚩Results
 
-The inference results on benchmark datasets are available at [Google Drive](https://drive.google.com/file/d/1ZrAJgGJ3catBCOPX_eTCmjvqUYzoNhIz/view?usp=sharing) or [Baidu Netdisk](https://pan.baidu.com/s/1Q87ERhvTD-GMpAE03o_Aag) (access code: TeLX).
-
-## :mailbox:Contact
-
-If you have any questions, please feel free to contact us, [zwyczhang@stu.xupt.edu.cn](mailto:zwyczhang@stu.xupt.edu.cn) and [bolttt@stu.xupt.edu.cn](mailto:bolttt@stu.xupt.edu.cn).
 
 ## :rainbow:References
 
