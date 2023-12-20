@@ -1,4 +1,7 @@
 import math
+import cv2
+import numpy as np
+
 import torch
 from torch import autograd as autograd
 from torch import nn as nn
@@ -52,6 +55,55 @@ class L1Loss(nn.Module):
             weight (Tensor, optional): of shape (N, C, H, W). Element-wise weights. Default: None.
         """
         return self.loss_weight * l1_loss(pred, target, weight, reduction=self.reduction)
+
+
+@LOSS_REGISTRY.register()
+class EdgeAwareLoss(nn.Module):
+    """Edge-Aware Loss using L1 loss on edge features extracted using Sobel operator from OpenCV.
+
+    Args:
+        loss_weight (float): Loss weight for L1 loss. Default: 1.0.
+        reduction (str): Specifies the reduction to apply to the output.
+            Supported choices are 'none' | 'mean' | 'sum'. Default: 'mean'.
+    """
+
+    def __init__(self, loss_weight=1.0, reduction='mean'):
+        super(EdgeAwareLoss, self).__init__()
+        if reduction not in ['none', 'mean', 'sum']:
+            raise ValueError(f'Unsupported reduction mode: {reduction}. Supported ones are: ["none", "mean", "sum"]')
+
+        self.loss_weight = loss_weight
+        self.reduction = reduction
+
+    def forward(self, pred, target, weight=None, **kwargs):
+        """
+        Args:
+            pred (Tensor): of shape (N, C, H, W). Predicted tensor.
+            target (Tensor): of shape (N, C, H, W). Ground truth tensor.
+        """
+        # Extracting edge features
+        pred_edges = self.edge_detect(pred)
+        target_edges = self.edge_detect(target)
+        # Calc. loss on edge features
+        return self.loss_weight * l1_loss(pred, target, weight, reduction=self.reduction)
+
+    @staticmethod
+    def edge_detect(tensor):
+        """
+        Performs edge detection using Sobel operator from OpenCV.
+        Args:
+            tensor (Tensor): Input tensor for edge detection.
+        """
+        edges = []
+        for i in range(tensor.size(0)):
+            img = tensor[i].detach().cpu().numpy().transpose(1, 2, 0)  # Convert to numpy array and HWC format
+            img_gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY) if img.shape[2] == 3 else img  # Convert to grayscale if necessary
+            sobelx = cv2.Sobel(img_gray, cv2.CV_64F, 1, 0, ksize=3)  # Sobel X
+            sobely = cv2.Sobel(img_gray, cv2.CV_64F, 0, 1, ksize=3)  # Sobel Y
+            edge = np.sqrt(sobelx**2 + sobely**2)
+            edges.append(torch.from_numpy(edge).to(tensor.device))
+
+        return torch.stack(edges)
 
 
 @LOSS_REGISTRY.register()
@@ -254,6 +306,21 @@ class PerceptualLoss(nn.Module):
         gram = features.bmm(features_t) / (c * h * w)
         return gram
 
+@LOSS_REGISTRY.register()
+class FFTLoss(nn.Module):
+    def __init__(self, loss_weight=1.0, reduction='mean'):
+        super(FFTLoss, self).__init__()
+        self.loss_weight = loss_weight
+        self.criterion = torch.nn.L1Loss(reduction=reduction)
+
+    def forward(self, pred, target):
+        pred_fft = torch.fft.rfft2(pred)
+        target_fft = torch.fft.rfft2(target)
+
+        pred_fft = torch.stack([pred_fft.real, pred_fft.imag], dim=-1)
+        target_fft = torch.stack([target_fft.real, target_fft.imag], dim=-1)
+
+        return self.loss_weight * self.criterion(pred_fft, target_fft)
 
 @LOSS_REGISTRY.register()
 class GANLoss(nn.Module):

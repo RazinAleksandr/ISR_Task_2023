@@ -97,7 +97,7 @@ def train_pipeline(root_path):
     opt['root_path'] = root_path
 
     torch.backends.cudnn.benchmark = True
-    # torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.deterministic = True
 
     # load resume states if necessary
     resume_state = load_resume_state(opt)

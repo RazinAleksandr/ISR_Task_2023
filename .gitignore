@@ -1,6 +1,7 @@
 /wandb
 /results
 /experiments
+/tb_logger
 *.eggs
 *info
 

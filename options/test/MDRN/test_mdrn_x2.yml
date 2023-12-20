@@ -1,54 +1,38 @@
-name: MDRN_test_X2
+name: MDRN_test_X2_blur_deblur
 model_type: SRModel
 scale: 2
-num_gpu: 0 #auto  # set num_gpu: 0 for cpu mode
+num_gpu: 1 #auto  # set num_gpu: 0 for cpu mode
 manual_seed: 0
 
 datasets:
-  test_1:  # the 1st test dataset
+  test_1:
     name: Set5
     type: PairedImageDataset
-    dataroot_gt: /home/arazin/main/work/huawei_cv/MDRN/datasets/testsets/Set5/HR_mod2
-    dataroot_lq: /home/arazin/main/work/huawei_cv/MDRN/datasets/testsets/Set5/X2
+    dataroot_gt: /home/aleks/main/huawei/ISR_Task_2023/datasets/testsets/Set5/HR_mod2
+    dataroot_lq: /home/aleks/main/huawei/ISR_Task_2023/datasets/testsets/Set5/X2
     io_backend:
       type: disk
-  test_2: # the 2th test dataset
+  test_2:
     name: Manga109
     type: PairedImageDataset
-    dataroot_gt: /home/arazin/main/work/huawei_cv/MDRN/datasets/testsets/Manga109/HR_mod2
-    dataroot_lq: /home/arazin/main/work/huawei_cv/MDRN/datasets/testsets/Manga109/X2
+    dataroot_gt: /home/aleks/main/huawei/ISR_Task_2023/datasets/testsets/Manga109/HR_mod2
+    dataroot_lq: /home/aleks/main/huawei/ISR_Task_2023/datasets/testsets/Manga109/X2
     io_backend:
       type: disk
-  # test_2:  # the 2nd test dataset
-  #   name: Set14
-  #   type: PairedImageDataset
-  #   dataroot_gt: F:\CNN_Trans\testsets\Set14\HR_mod2
-  #   dataroot_lq: F:\CNN_Trans\testsets\Set14\X2
-  #   io_backend:
-  #     type: disk
-  # test_3: # the 3rd test dataset
-  #   name: Urban100
-  #   type: PairedImageDataset
-  #   dataroot_gt: F:\CNN_Trans\testsets\urban100\HR_mod2
-  #   dataroot_lq: F:\CNN_Trans\testsets\urban100\X2
-  #   io_backend:
-  #     type: disk
-  # test_5: # the 5th test dataset
-  #   name: BSDS100
-  #   type: PairedImageDataset
-  #   dataroot_gt: F:\CNN_Trans\testsets\BSDS100\HR_mod2
-  #   dataroot_lq: F:\CNN_Trans\testsets\BSDS100\X2
-  #   io_backend:
-  #     type: disk
-
-#  test_3:
-#    name: DIV2K100
-#    type: PairedImageDataset
-#    dataroot_gt: datasets/DIV2K/DIV2K_valid_HR
-#    dataroot_lq: datasets/DIV2K/DIV2K_valid_LR_bicubic/X2
-#    filename_tmpl: '{}x2'
-#    io_backend:
-#      type: disk
+  test_3:
+    name: DIV2k
+    type: PairedImageDataset
+    dataroot_gt: /home/aleks/main/huawei/ISR_Task_2023/datasets/testsets/DIV2K/HR_mod2
+    dataroot_lq: /home/aleks/main/huawei/ISR_Task_2023/datasets/testsets/DIV2K/X2
+    io_backend:
+      type: disk  
+  test_4:
+    name: Christmas
+    type: PairedImageDataset
+    dataroot_gt: datasets/testsets/Christmas/HR_mod2
+    dataroot_lq: datasets/testsets/Christmas/X2
+    io_backend:
+      type: disk
 
 # network structures
 network_g:
@@ -57,7 +41,7 @@ network_g:
 
 # path
 path:
-  pretrain_network_g: /home/arazin/main/work/huawei_cv/MDRN/pretrain_models/mdrn/mdrn_x2.pth
+  pretrain_network_g: /home/aleks/main/huawei/ISR_Task_2023/experiments/train_MDRN_X2_deblur/models/net_g_10000.pth
   strict_load_g: true
   param_key_g: params_ema
 

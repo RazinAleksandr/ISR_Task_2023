@@ -79,6 +79,21 @@ class MBConv(nn.Module):
     def forward(self, x):
         return self.mbconv(x)
 
+# GRN
+class GRN(nn.Module):
+    """ GRN (Global Response Normalization) layer
+    """
+    def __init__(self, dim):
+        super().__init__()
+        self.gamma = nn.Parameter(torch.zeros(1, dim, 1, 1))
+        self.beta = nn.Parameter(torch.zeros(1, dim, 1, 1))
+
+    def forward(self, x):
+        Gx = torch.norm(x, p=2, dim=(2, 3), keepdim=True)
+        Nx = Gx / (Gx.mean(dim=1, keepdim=True) + 1e-6)
+        x = self.gamma * (x * Nx) + self.beta + x
+        return x
+
 
 # CCM
 class CCM(nn.Module):
@@ -94,7 +109,6 @@ class CCM(nn.Module):
 
     def forward(self, x):
         return self.ccm(x)
-
 
 # SAFM
 class SAFM(nn.Module):
@@ -147,9 +161,32 @@ class AttBlock(nn.Module):
         x = self.safm(self.norm1(x)) + x
         x = self.ccm(self.norm2(x)) + x
         return x
+
+class SAFMN_NTIRE(nn.Module):
+    def __init__(self, dim, n_blocks=8, ffn_scale=2.0, upscaling_factor=4):
+        super().__init__()
+        self.scale = upscaling_factor
         
+        self.norm = GRN(dim)
+
+        self.to_feat = nn.Conv2d(3, dim, 3, 1, 1)
+
+        self.feats = nn.Sequential(*[AttBlock(dim, ffn_scale) for _ in range(n_blocks)])
+
+        self.to_img = nn.Sequential(
+            nn.Conv2d(dim, 3 * upscaling_factor**2, 3, 1, 1),
+            nn.PixelShuffle(upscaling_factor)
+        )
         
-# @ARCH_REGISTRY.register()
+    def forward(self, x):
+        ident = F.interpolate(x, scale_factor=self.scale, mode='bilinear', align_corners=False)
+        x = self.to_feat(x)
+        x = self.norm(x)
+        x = self.feats(x)
+        x = self.to_img(x)
+        return x + ident
+        
+@ARCH_REGISTRY.register()
 class SAFMN(nn.Module):
     def __init__(self, dim, n_blocks=8, ffn_scale=2.0, upscaling_factor=4):
         super().__init__()

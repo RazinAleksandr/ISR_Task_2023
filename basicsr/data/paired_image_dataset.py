@@ -1,6 +1,7 @@
 from torch.utils import data as data
 from torchvision.transforms.functional import normalize
 import torch
+import torchvision.transforms as T
 
 from basicsr.data.data_util import paired_paths_from_folder, paired_paths_from_lmdb, paired_paths_from_meta_info_file
 from basicsr.data.transforms import augment, paired_random_crop
@@ -106,10 +107,13 @@ class PairedImageDataset(data.Dataset):
 
         # extend ISR pipeline with denoising task
         # Add small normal noise to the image
-        noise = torch.randn_like(img_lq) * 0.1  # std dev 0.1
-        img_lq = img_lq + noise
-        img_lq = torch.clamp(img_lq, 0, 1)  # Ensure the noisy image is still in the range [0, 1]
-
+        # noise = torch.randn_like(img_lq) * 1e-1  # std dev 0.1
+        # img_lq = img_lq + noise
+        # img_lq = torch.clamp(img_lq, 0, 1)  # Ensure the noisy image is still in the range [0, 1]
+        # extend ISR pipeline with Gaussian blur
+        # The first argument is the kernel size (must be odd), and the second is the sigma
+        # gaussian_blur = T.GaussianBlur(kernel_size=(5, 5), sigma=(1.5, 1.5))
+        # img_lq = gaussian_blur(img_lq)
 
 
         return {'lq': img_lq, 'gt': img_gt, 'lq_path': lq_path, 'gt_path': gt_path}

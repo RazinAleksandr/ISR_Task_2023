@@ -63,6 +63,21 @@ class SRModel(BaseModel):
         else:
             self.cri_perceptual = None
 
+        if train_opt.get('fft_opt'):
+            self.cri_fft = build_loss(train_opt['fft_opt']).to(self.device)
+        else:
+            self.cri_fft = None
+        
+        if train_opt.get('edge_opt'):
+            self.cri_edge = build_loss(train_opt['edge_opt']).to(self.device)
+        else:
+            self.cri_edge = None
+
+        if train_opt.get('wave_opt'):
+            self.cri_wave = build_loss(train_opt['wave_opt']).to(self.device)
+        else:
+            self.cri_wave = None
+
         if self.cri_pix is None and self.cri_perceptual is None:
             raise ValueError('Both pixel and perceptual losses are None.')
 
@@ -100,6 +115,25 @@ class SRModel(BaseModel):
             l_pix = self.cri_pix(self.output, self.gt)
             l_total += l_pix
             loss_dict['l_pix'] = l_pix
+
+        # frequency loss
+        if self.cri_fft:
+            l_fft = self.cri_fft(self.output, self.gt)
+            l_total += l_fft
+            loss_dict['l_freq'] = l_fft
+        
+        # edge aware loss
+        if self.cri_edge:
+            l_edge = self.cri_edge(self.output, self.gt)
+            l_total += l_edge
+            loss_dict['l_edge'] = l_edge
+
+        # wavelet-based frequency loss
+        if self.cri_wave:
+            l_wave = self.cri_wave(self.output, self.gt)
+            l_total += l_wave
+            loss_dict['l_wave'] = l_wave
+
         # perceptual loss
         if self.cri_perceptual:
             l_percep, l_style = self.cri_perceptual(self.output, self.gt)
@@ -158,6 +192,8 @@ class SRModel(BaseModel):
 
             visuals = self.get_current_visuals()
             sr_img = tensor2img([visuals['result']])
+            # lr_im = tensor2img([visuals['lq']])
+
             metric_data['img'] = sr_img
             if 'gt' in visuals:
                 gt_img = tensor2img([visuals['gt']])
@@ -180,7 +216,13 @@ class SRModel(BaseModel):
                     else:
                         save_img_path = osp.join(self.opt['path']['visualization'], dataset_name,
                                                  f'{img_name}_{self.opt["name"]}.png')
+                        #### save lq image -- delete
+                        # save_ls_img_path = osp.join(self.opt['path']['visualization'], dataset_name,
+                        #                          f'{img_name}_{self.opt["name"]}_low_quality.png')
                 imwrite(sr_img, save_img_path)
+                # delete
+                # imwrite(lr_im, save_ls_img_path)
+                
 
             if with_metrics:
                 # calculate metrics

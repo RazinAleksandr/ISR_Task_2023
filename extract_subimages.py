@@ -83,16 +83,16 @@ def main():
     opt['compression_level'] = 3
 
     # HR images
-    opt['input_folder'] = r'datasets/DL2K/DL2K_train_HR'
-    opt['save_folder'] = r'datasets/DL2K/DL2K_train_HR_sub'
+    opt['input_folder'] = r'datasets/DL2K/HR_mod2' #r'datasets/DL2K/DL2K_train_HR'
+    opt['save_folder'] = r'datasets/DL2K/HR_mod2_sub'
     opt['crop_size'] = 480
     opt['step'] = 240
     opt['thresh_size'] = 0
     extract_subimages(opt)
 
     # LRx2 images
-    opt['input_folder'] = r'datasets/DL2K/DL2K_train_LR_bicubic/X2'
-    opt['save_folder'] = r'datasets/DL2K/DL2K_train_LR_bicubic/X2_sub'
+    opt['input_folder'] = r'datasets/DL2K/X2'
+    opt['save_folder'] = r'datasets/DL2K/X2_sub'
     opt['crop_size'] = 240
     opt['step'] = 120
     opt['thresh_size'] = 0
