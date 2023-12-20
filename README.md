@@ -7,7 +7,7 @@
 - [Architectures](#architectures)
   - [MDRN](#mdrn)
   - [GFMN](#gfmn)
-- [Demo Results](#demo)
+- [Demo Results](#demo-results)
 - [Experiments](#experiments)
   - [Addition tasks](#dddition-tasks)
   - [Losses modification](#losses-modification)
@@ -53,6 +53,17 @@ There are 4 datasets used to test the quality of models: DIV2K test dataset, Man
 Pretrain models inference on test sets PSNR | SSIM results:
 
 ![fig](README.assets/demo.png)
+
+# Experiments
+| PSNR metric        | DIV2k Blur | Noise  | Manga109 Blur | Noise  | Set5 Blur | Noise  | Christmas Blur | Noise  |
+|--------------------|------------|--------|---------------|--------|-----------|--------|----------------|--------|
+| MDRN base          | 27.1961    | 21.6181| 25.1616       | 21.5454| 26.3798   | 21.7238| 24.6929        | 20.9387|
+| MDRN fine-tuned    | **33.8330**| **30.8184**| **30.5301** | **29.3575**| **34.6285** | **31.0261**| **28.5631** | **27.4755**|
+| GFMN (SAFM) base   | 27.1902    | 21.9179| 25.1580        | 22.0246| 26.3741   | 22.1374| 24.6895        | 21.2976|
+| GFMN (SAFM) fine-tuned |32.7189| 30.4988| 29.6930 | 28.3714| 33.1904 | 30.6769| 28.0334 | 27.3378|
+
+![fig](README.assets/mdrn_exp.png)
+![fig](README.assets/gfmn_exp.png)
 
 ## 💻Environment
 
