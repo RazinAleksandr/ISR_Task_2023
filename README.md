@@ -13,8 +13,7 @@
   - [Losses modification](#losses-modification)
 - [Setup and Reproducibility](#setup-and-reproducibility)
 - [Links](#links)
-- [Project Structure](#project-structure)
-- [License](#license)
+- [Project structure](#project-structure)
 
 ## Introduction
 A study of the result of the Image Super Resolution NTIRE 2023 competition. Study and comparison of MDRN and GFMN models. Experimental improvement of models quality.
