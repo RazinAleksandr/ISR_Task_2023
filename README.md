@@ -108,3 +108,37 @@ python basicsr/test.py -opt ./options/test/SAFM/test_safm_x2.yml
 - [NTIRE2023](https://openaccess.thecvf.com/content/CVPR2023W/NTIRE/papers/Li_NTIRE_2023_Challenge_on_Efficient_Super-Resolution_Methods_and_Results_CVPRW_2023_paper.pdf)
 - [MDRN](https://openaccess.thecvf.com/content/CVPR2023W/NTIRE/papers/Mao_Multi-Level_Dispersion_Residual_Network_for_Efficient_Image_Super-Resolution_CVPRW_2023_paper.pdf)
 - [GFMN](https://openaccess.thecvf.com/content/ICCV2023/papers/Sun_Spatially-Adaptive_Feature_Modulation_for_Efficient_Image_Super-Resolution_ICCV_2023_paper.pdf)
+
+# Project structure
+```
+├── basicsr              # directory with main modules for image super resolution task
+│   ├── archs            # architectures module
+│   ├── data             # data processing module
+│   ├── losses           # loss functions
+│   ├── metrics          # SR metrics
+│   ├── models           # models utils
+│   ├── ops              # useful functions
+│   └── utils            # preprocessing and postprocessing utils
+degradations             # directory with degradation scripts
+│   ├── conf             # configurations
+│   └── degradations     # image degradations module
+├── options              # options for train and test scripts
+│   ├── test
+│   │   ├── MDRN
+│   │   ├── SAFMN
+│   │   └── SRN
+│   └── train
+│       ├── MDRN
+│       ├── SAFM
+│       └── SRN
+├── pretrain_models      # saved models weights
+│   ├── mdrn
+│   ├── safm
+│   └── srn
+├── utility              # helper functions for models evaluations
+├── extract_subimages.py # script for image patching
+├── requirements.txt     # The requirements file
+└── setup.py             # Setup script to make the project pip-installable
+
+```
+
