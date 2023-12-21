@@ -78,7 +78,7 @@ class SRModel(BaseModel):
         else:
             self.cri_wave = None
 
-        if self.cri_pix is None and self.cri_perceptual is None:
+        if self.cri_pix is None and self.cri_perceptual is None and self.cri_edge is None:
             raise ValueError('Both pixel and perceptual losses are None.')
 
         # set up optimizers and schedulers
